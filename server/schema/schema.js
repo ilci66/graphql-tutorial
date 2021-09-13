@@ -1,4 +1,5 @@
 const graphql = require('graphql');
+const { assign } = require('lodash');
 // making use of the find method
 const _ = require('lodash');
 
@@ -8,7 +9,9 @@ const {
     GraphQLString, 
     GraphQLSchema,
     // no need id to be a string anymore in queries, it will appear as string when it's querying
-    GraphQLID 
+    GraphQLID,
+    // for integers
+    GraphQLInt 
 } = graphql;
 
 
@@ -18,15 +21,27 @@ var books = [
     { name: 'The Final Empire', genre: 'Fantasy', id: '2' },
     { name: 'The Long Earth', genre: 'Sci-Fi', id: '3' },
 ];
+var authors = [
+    { name: 'Patrick Rothfuss', age: 44, id: '1' },
+    { name: 'Brandon Sanderson', age: 42, id: '2' },
+    { name: 'Terry Pratchett', age: 66, id: '3' }
+];
 
-
-// create the schema
+// create the schemas
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
         id: {type:GraphQLID},
         name: {type:GraphQLString},
         genre: {type:GraphQLString}
+    })
+})
+const AuthorType = new GraphQLObjectType({
+    name: 'Author',
+    fields: () => ({
+        id: {type:GraphQLID},
+        name: {type:GraphQLString},
+        age: {type: GraphQLInt}
     })
 })
 
@@ -39,12 +54,19 @@ const RootQuery = new GraphQLObjectType({
         book: {
             type: BookType,
             // these are the expected arguments for the query
-            args: { id: {type: GraphQLID}},
+            args: { id: { type: GraphQLID } },
             // args used right down below, as "args.id" for example
             resolve(parent, args){
                 // code to get data from db or other source 
                 // using find method: "_.find(collection, predicate, fromIndex)"
                 return _.find(books, { id: args.id });
+            }
+        },
+        author: {
+            type: AuthorType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args){
+                return _.find(authors, { id: args.id});
             }
         }
     }
