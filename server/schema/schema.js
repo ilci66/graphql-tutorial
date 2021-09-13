@@ -102,6 +102,28 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args){
                 return _.find(authors, { id: args.id});
             }
+        },
+        // to get all without querying with and id, like this
+        // {
+        //     authors{
+        //       name
+        //         book{
+        //             name
+        //             genre
+        //         }
+        //     }
+        //  }
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parents, args){
+                return books
+            }
+        },
+        authors: {
+            type: new GraphQLList(AuthorType),
+            resolve(parents, args){
+                return authors
+            }
         }
     }
 
