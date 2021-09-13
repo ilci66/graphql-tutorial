@@ -3,7 +3,13 @@ const graphql = require('graphql');
 const _ = require('lodash');
 
 // get the types I will be using 
-const { GraphQLObjectType, GraphQLString } = graphql;
+const { 
+    GraphQLObjectType, 
+    GraphQLString, 
+    GraphQLSchema,
+    // no need id to be a string anymore in queries, it will appear as string when it's querying
+    GraphQLID 
+} = graphql;
 
 
 // dummy data
@@ -18,7 +24,7 @@ var books = [
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
-        id: {type:GraphQLString},
+        id: {type:GraphQLID},
         name: {type:GraphQLString},
         genre: {type:GraphQLString}
     })
@@ -33,7 +39,7 @@ const RootQuery = new GraphQLObjectType({
         book: {
             type: BookType,
             // these are the expected arguments for the query
-            args: { id: {type: GraphQLString}},
+            args: { id: {type: GraphQLID}},
             // args used right down below, as "args.id" for example
             resolve(parent, args){
                 // code to get data from db or other source 
@@ -53,6 +59,6 @@ const RootQuery = new GraphQLObjectType({
 
 
 
-module.exports = new graphql.GraphQLSchema({
+module.exports = new GraphQLSchema({
     query: RootQuery
 });
