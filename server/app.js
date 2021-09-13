@@ -10,7 +10,8 @@ const app = express();
 
 // graphqlHTTP middleware is in a fact a function and thats on options 
 app.use('/graphql', graphqlHTTP({
-    schema
+    schema,
+    graphiql: true
 }))
 
 

@@ -1,6 +1,6 @@
 const graphql = require('graphql');
 // making use of the find method
-const _ = reuire('lodash');
+const _ = require('lodash');
 
 // get the types I will be using 
 const { GraphQLObjectType, GraphQLString } = graphql;
@@ -38,7 +38,7 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args){
                 // code to get data from db or other source 
                 // using find method: "_.find(collection, predicate, fromIndex)"
-                return _find(books, { id: args.id });
+                return _.find(books, { id: args.id });
             }
         }
     }
