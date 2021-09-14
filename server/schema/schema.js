@@ -31,7 +31,7 @@ const AuthorType = new GraphQLObjectType({
             type: new GraphQLList(BookType),
             resolve(parent, args){
                 // the parent here is author object and authorId is already present
-                return _.filter(books, { authorId: parent.id})
+                // return _.filter(books, { authorId: parent.id})
             }
         }
     })
@@ -50,7 +50,7 @@ const BookType = new GraphQLObjectType({
             // parent in this case is the book object
             resolve(parent, args){
                 // console.log(parent)
-                return _.find(authors, { id: parent.authorId})
+                // return _.find(authors, { id: parent.authorId})
                 // {
                 //     book(id:2){
                 //       name
@@ -80,14 +80,14 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args){
                 // code to get data from db or other source 
                 // using find method: "_.find(collection, predicate, fromIndex)"
-                return _.find(books, { id: args.id });
+                // return _.find(books, { id: args.id });
             }
         },
         author: {
             type: AuthorType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args){
-                return _.find(authors, { id: args.id});
+                // return _.find(authors, { id: args.id});
             }
         },
         // to get all without querying with and id, like this
@@ -122,8 +122,42 @@ const RootQuery = new GraphQLObjectType({
 //     genre
 // }
 
-
+// will use this when I wanna mutate the data
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    // fields will hold the different types of mutations I wanna make
+    fields: {
+        // such as adding an author
+        addAuthor: {
+            type: AuthorType,
+            // the necessary arguments to create an author
+            args: {
+                name: { type: GraphQLString },
+                age: { type: GraphQLInt }
+            },
+            resolve(parent, args){
+                let author = new Author({
+                    name: args.name,
+                    age: args.age
+                })
+                // Don't forget to add the return before save, otherise 
+                // I can't reach (return) the file as I'm creating it 
+                return author.save()
+                // now I can do a mutation to save an author to the database, like this:
+                // mutation{
+                //     addAuthor(name:"Ilker", age:27){
+                //       name
+                //       age
+                //       id
+                //     }
+                // }
+                  
+            }
+        }
+    }
+})
 
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 });
