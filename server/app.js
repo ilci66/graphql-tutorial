@@ -7,10 +7,12 @@ const mongoose = require('mongoose');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
 require('dotenv').config();
+const cors = require('cors')
 
 mongoose.connect(process.env.MONGO_URI, {}).then(() => console.log('Connected to database')) 
 
 const app = express();
+app.use(cors())
 
 app.use('/graphql', graphqlHTTP({
     schema,
