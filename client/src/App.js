@@ -1,6 +1,7 @@
 import BookList from "./components/BookList";
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import AddBook from "./components/AddBook";
 
 
 // now apollo knows we will make request to this enpoint from this component
@@ -15,6 +16,7 @@ function App() {
       <div id="main">
         <h1>Ilker's Reading List</h1>
         <BookList />
+        <AddBook />
       </div>
     </ApolloProvider>
     
