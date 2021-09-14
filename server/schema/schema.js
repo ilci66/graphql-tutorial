@@ -32,6 +32,7 @@ const AuthorType = new GraphQLObjectType({
             resolve(parent, args){
                 // the parent here is author object and authorId is already present
                 // return _.filter(books, { authorId: parent.id})
+                return Book.find({ authorId: parent.id})
             }
         }
     })
@@ -39,6 +40,8 @@ const AuthorType = new GraphQLObjectType({
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
+        // authorId is defined in the root down below even though it's not here
+        // I can still create adn add the authorId value
         id: {type:GraphQLID},
         name: {type:GraphQLString},
         genre: {type:GraphQLString},
@@ -61,6 +64,7 @@ const BookType = new GraphQLObjectType({
                 //     }
                 //   }
                 // this kind of a query is now possible
+                return Book.findById(parent.authorId);
             }
         }
     })
@@ -81,6 +85,7 @@ const RootQuery = new GraphQLObjectType({
                 // code to get data from db or other source 
                 // using find method: "_.find(collection, predicate, fromIndex)"
                 // return _.find(books, { id: args.id });
+                return Book.findById(args.id)
             }
         },
         author: {
@@ -88,6 +93,7 @@ const RootQuery = new GraphQLObjectType({
             args: { id: { type: GraphQLID } },
             resolve(parent, args){
                 // return _.find(authors, { id: args.id});
+                return Author.findById(args.id);
             }
         },
         // to get all without querying with and id, like this
@@ -103,13 +109,15 @@ const RootQuery = new GraphQLObjectType({
         books: {
             type: new GraphQLList(BookType),
             resolve(parents, args){
-                return books
+                // return books
+                return Book.find({});
             }
         },
         authors: {
             type: new GraphQLList(AuthorType),
             resolve(parents, args){
-                return authors
+                // return authors
+                return Author.find({});
             }
         }
     }
