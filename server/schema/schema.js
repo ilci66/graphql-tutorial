@@ -1,22 +1,19 @@
 const graphql = require('graphql');
-const { assign } = require('lodash');
-// making use of the find method
-const _ = require('lodash');
 const Book = require('../models/book');
-const Author = require('../models/author');
+const Author = require('../models/Author');
+const _ = require('lodash');
+
 
 // get the types I will be using 
-const { 
-    GraphQLObjectType, 
-    GraphQLString, 
+const {
+    GraphQLObjectType,
+    GraphQLString,
     GraphQLSchema,
     GraphQLID,
     GraphQLInt,
     GraphQLList,
     GraphQLNonNull
 } = graphql;
-
-
 
 // create the schemas
 const AuthorType = new GraphQLObjectType({
@@ -40,19 +37,19 @@ const AuthorType = new GraphQLObjectType({
 })
 const BookType = new GraphQLObjectType({
     name: 'Book',
-    fields: () => ({
+    fields: ( ) => ({
         // authorId is defined in the root down below even though it's not here
         // I can still create adn add the authorId value
-        id: {type:GraphQLID},
-        name: {type:GraphQLString},
-        genre: {type:GraphQLString},
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        genre: { type: GraphQLString },
         // we can define the relations between shcmemas
         author: {
             // type of data I'm expecting
             type: AuthorType,
             // resolve is the method that actually looks for and serves the data
             // parent in this case is the book object
-            resolve(parent, args){
+            resolve(parent, args){  
                 // console.log(parent)
                 // return _.find(authors, { id: parent.authorId})
                 // {
@@ -65,7 +62,7 @@ const BookType = new GraphQLObjectType({
                 //     }
                 //   }
                 // this kind of a query is now possible
-                return Book.findById(parent.authorId);
+                return Author.findById(parent.authorId);
             }
         }
     })
