@@ -34,4 +34,24 @@ const addBookMutation = gql`
     }
 `
 
-export { getAuthorsQuery, getBooksQuery, addBookMutation };
+// make a query for a single book for BookDetails component
+const getBookQuery = gql`
+    query($id: ID){
+        book(id: $id){
+            id
+            name
+            genre
+            author{
+                id
+                name
+                age
+                book{
+                    name
+                    id
+                }
+            }
+        }
+    }
+`
+
+export { getAuthorsQuery, getBooksQuery, addBookMutation, getBookQuery };

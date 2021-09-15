@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { getAuthorsQuery, addBookMutation} from '../queries/queries'
+import { getAuthorsQuery, addBookMutation, getBooksQuery} from '../queries/queries'
 // apparently react-apollo was using flowright and stopped using in 2020 to compose
 import { flowRight as compose } from 'lodash';
 
@@ -40,7 +40,9 @@ class AddBook extends Component {
                 name: this.state.name,
                 genre: this.state.genre,
                 authorId: this.state.authorId
-            }
+            },
+            // this will cause the necessary re-render of the conponent after adding a book
+            refetchQueries: [{ query: getBooksQuery }]
         })
     }
 
