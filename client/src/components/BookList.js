@@ -6,6 +6,7 @@ import { getBooksQuery} from '../queries/queries'
 class BookList extends Component {
     displayBooks(){
         const { data } = this.props
+        console.log("this is data>>>>",this.props)
         if(data.loading){
             return (<div>Loading...</div>)
         }else{

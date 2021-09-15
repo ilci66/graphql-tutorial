@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { getAuthorsQuery} from '../queries/queries'
-
+import { getAuthorsQuery, addBookMutation} from '../queries/queries'
+// apparently react-apollo was using flowright and stopped using in 2020 to compose
+import { flowRight as compose } from 'lodash';
 
 class AddBook extends Component {
     constructor(props){
@@ -14,7 +15,11 @@ class AddBook extends Component {
     };
 
     displayAuthors(){
-        var { data } = this.props
+        // this becomes becomes undefined after composing because now info I get is different
+        // var { data } = this.props
+        // names i defined down there come into play here
+        // console.log(this.props)
+        var data = this.props.getAuthorsQuery
         if(data.loading){
             return( <option disabled>Loading authors</option> );
         } else {
@@ -25,7 +30,11 @@ class AddBook extends Component {
     };
     submitForm(e){
         e.preventDefault()
-        console.log(this.state)
+        // console.log(this.state)
+        
+        // this is how I call the mutation
+        // again it's the name I gave, I could name it something else if I wanted to
+        this.props.addBookMutation()
     }
 
     render(){
@@ -52,4 +61,11 @@ class AddBook extends Component {
     }
 }
 
-export default graphql(getAuthorsQuery)(AddBook);
+// realacing this one with the one I can compese multiple queries or mutations
+// export default graphql(getAuthorsQuery)(AddBook);
+
+// the name properties are going to be used up there 
+export default compose(
+    graphql(getAuthorsQuery, { name: "getAuthorsQuery"}),
+    graphql(addBookMutation, { name: "addBookMutation"})
+)(AddBook);
