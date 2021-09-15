@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { getBooksQuery} from '../queries/queries'
+import { getBooksQuery } from '../queries/queries';
 import BookDetails from './BookDetails';
 
 class BookList extends Component {
@@ -11,18 +11,19 @@ class BookList extends Component {
         }
     }
     displayBooks(){
-        const { data } = this.props
+        var { data } = this.props;
+
         if(data.loading){
-            return (<div>Loading...</div>)
-        }else{
-            return data.books.map(book =>{
+            return( <div>Loading books...</div> );
+        } else {
+            return data.books.map(book => {
                 return(
-                    <li key={ book.id } onClick={(e) => this.setState({ selected: book.id })}>{book.name}</li>
-                )
+                    <li key={ book.id } onClick={ (e) => this.setState({ selected: book.id }) }>{ book.name }</li>
+                );
             })
         }
-    };
-    render(){
+    }
+    render(){        
         // console.log(this.props)
         // make use of the loading property to make sure you have the data, 
         // turns false when you have the data you want by default
@@ -36,7 +37,6 @@ class BookList extends Component {
         );
     }
 }
-
 // I wrote it as both to prevent future confusion, gonna keep it here
 // const BookList = (props) => {
 //     console.log(props)
