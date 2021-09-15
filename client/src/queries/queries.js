@@ -45,7 +45,7 @@ const getBookQuery = gql`
                 id
                 name
                 age
-                book{
+                books{
                     name
                     id
                 }

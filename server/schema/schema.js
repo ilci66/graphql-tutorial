@@ -27,7 +27,7 @@ const AuthorType = new GraphQLObjectType({
         id: {type:GraphQLID},
         name: {type:GraphQLString},
         age: {type: GraphQLInt},
-        book: {
+        books: {
             // as an author may have multiple books 'GraphQLList' should be used
             type: new GraphQLList(BookType),
             resolve(parent, args){
