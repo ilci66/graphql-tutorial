@@ -31,7 +31,6 @@ class AddBook extends Component {
     submitForm(e){
         e.preventDefault()
         // console.log(this.state)
-        console.log(this.state.name)
         // this is how I call the mutation
         // again it's the name I gave, I could name it something else if I wanted to
         this.props.addBookMutation({

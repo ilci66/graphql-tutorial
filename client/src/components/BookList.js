@@ -4,19 +4,24 @@ import { getBooksQuery} from '../queries/queries'
 import BookDetails from './BookDetails';
 
 class BookList extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            selected: null
+        }
+    }
     displayBooks(){
         const { data } = this.props
-        console.log("this is data>>>>",this.props)
         if(data.loading){
             return (<div>Loading...</div>)
         }else{
             return data.books.map(book =>{
                 return(
-                    <li key={ book.id }>{book.name}</li>
+                    <li key={ book.id } onClick={(e) => this.setState({ selected: book.id })}>{book.name}</li>
                 )
             })
         }
-    }
+    };
     render(){
         // console.log(this.props)
         // make use of the loading property to make sure you have the data, 
@@ -24,9 +29,9 @@ class BookList extends Component {
         return(
             <div>
                 <ul id="book-list">
-                    {this.displayBooks()}
+                    { this.displayBooks() }
                 </ul>
-                <BookDetails />
+                <BookDetails bookId={ this.state.selected } />
             </div>
         );
     }
