@@ -23,9 +23,11 @@ const getAuthorsQuery = gql`
 // names of the mutations should match the names I defined in the backend
 // the parameters and their types are also defined in the backend so match 
 // them too for making a mutation
+// I can define query variables and their expected types as below, after "mutation"
+// the ! makes it a required variable, tyes are like GraphQL... types
 const addBookMutation = gql`
-    mutation{
-        addBook(name:"", genre:"", authorId:""){
+    mutation($name: String!, $genre: String!, $authorId: ID!){
+        addBook(name: $name, genre: $genre, authorId: $authorId){
             name
             id
         }

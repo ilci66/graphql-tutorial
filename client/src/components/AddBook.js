@@ -31,16 +31,23 @@ class AddBook extends Component {
     submitForm(e){
         e.preventDefault()
         // console.log(this.state)
-        
+        console.log(this.state.name)
         // this is how I call the mutation
         // again it's the name I gave, I could name it something else if I wanted to
-        this.props.addBookMutation()
+        this.props.addBookMutation({
+            // setting the variables to create a new book
+            variables: {
+                name: this.state.name,
+                genre: this.state.genre,
+                authorId: this.state.authorId
+            }
+        })
     }
 
     render(){
         return(
             <form id="add-book" onSubmit={this.submitForm.bind(this)}>
-                <div className="field" onChange={(e) => this.setState({name: e.target.name})}>
+                <div className="field" onChange={(e) => this.setState({name: e.target.value})}>
                     <label>Book name:</label>
                     <input type="text" />
                 </div>
